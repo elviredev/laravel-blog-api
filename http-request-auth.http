@@ -1,0 +1,33 @@
+### POST /api/register
+# Cette requête permet d'enregistrer un user en BDD et d'obtenir un token d'authentification
+POST http://127.0.0.1:8000/api/register
+Content-Type: application/json
+
+{
+  "name": "elvire",
+  "email": "elvire@example.com",
+  "password": "Elvire*123456",
+  "password_confirmation": "Elvire*123456"
+}
+
+###
+
+###
+# @name POST /api/login
+# Cette requête permet d'authentifier un user
+POST http://127.0.0.1:8000/api/login
+Content-Type: application/json
+
+{
+  "email": "elvire@example.com",
+  "password": "Elvire*123456"
+}
+
+###
+# @name POST /api/logout
+POST http://127.0.0.1:8000/api/logout
+Content-Type: application/json
+Authorization: Bearer 6|xAYsNMWZOzS0ywivfKVB6wEbZfPINixKAwP6RW4c60634234
+
+###
+
