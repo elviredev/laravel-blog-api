@@ -34,6 +34,7 @@ class AuthController extends Controller
 
     try {
       // si validation OK, enregistrer le new user
+      /** @var User $user */
       $user = User::create([
         'name' => $request->name,
         'email' => $request->email,

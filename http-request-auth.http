@@ -30,4 +30,8 @@ Content-Type: application/json
 Authorization: Bearer 6|xAYsNMWZOzS0ywivfKVB6wEbZfPINixKAwP6RW4c60634234
 
 ###
-
+# @name GET /api/user
+# Obtenir les infos de l'utilisateur connecté
+GET http://127.0.0.1:8000/api/user
+Accept: application/json
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee

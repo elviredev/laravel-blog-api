@@ -1,0 +1,13 @@
+### POST /api/add/post
+# Cette requête permet d'ajouter un article
+POST http://127.0.0.1:8000/api/add/post
+Content-Type: application/json
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+{
+  "title": "Mon article 6",
+  "slug": "mon-article-6",
+  "description": "Ceci est mon contenu pour mon article 6"
+}
+
+###
