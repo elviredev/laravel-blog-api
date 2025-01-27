@@ -4,10 +4,33 @@ POST http://127.0.0.1:8000/api/add/post
 Content-Type: application/json
 Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 
+//{
+//  "title": "Mon article 7",
+//  "slug": "mon-article-7",
+//  "description": "Ceci est mon contenu pour mon article 7"
+//}
+
 {
-  "title": "Mon article 6",
-  "slug": "mon-article-6",
-  "description": "Ceci est mon contenu pour mon article 6"
+  "title": "Un article sur l'IA",
+  "description": "Du contenu intelligent pour cet article..."
 }
 
 ###
+### POST /api/edit/post/{slug}-{id}
+# Cette requête permet d'ajouter un article
+POST http://127.0.0.1:8000/api/edit/post/mon-article-deux-2
+Content-Type: application/json
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+//{
+//  "title": "Mon article 2",
+//  "slug": "mon-article-deux",
+//  "description": "Mise à jour du contenu de mon article 2"
+//}
+
+{
+  "title": "Mon article deux",
+  "description": "Mise à jour du contenu de mon article 2"
+}
+
+

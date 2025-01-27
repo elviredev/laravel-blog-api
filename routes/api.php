@@ -19,4 +19,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
   // Endpoints API blog
   Route::post('/add/post', [PostController::class, 'addNewPost']);
+  // edit approach 1
+  Route::post('/edit/post/{slug}-{post_id}', [PostController::class, 'editPost'])
+    ->where([
+      'slug' => '[a-z0-9\-]+', // Permet les slugs au format kebab-case
+      'post_id' => '[0-9]+'
+    ]);
 });
