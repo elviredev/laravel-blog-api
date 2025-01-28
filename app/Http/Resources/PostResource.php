@@ -14,6 +14,8 @@ class PostResource extends JsonResource
      * Flexibilité: permet d'ajuster les données retournées sans modifier la logique dans les contrôleurs
      * @return array<string, mixed>
      */
+
+
     public function toArray(Request $request): array
     {
       return [

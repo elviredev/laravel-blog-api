@@ -11,14 +11,15 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 //}
 
 {
-  "title": "Un article sur l'IA",
-  "description": "Du contenu intelligent pour cet article..."
+  "title": "TailwindCSS 4",
+  "description": "Une configuration via le fichier CSS et non plus en JS"
 }
 
+
 ###
-### POST /api/edit/post/{slug}-{id}
+# @name POST /api/edit/post/{slug}-{id}
 # Cette requête permet d'ajouter un article
-POST http://127.0.0.1:8000/api/edit/post/mon-article-deux-2
+POST http://127.0.0.1:8000/api/edit/post/mon-article-2-2
 Content-Type: application/json
 Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 
@@ -33,4 +34,18 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
   "description": "Mise à jour du contenu de mon article 2"
 }
 
+###
+# @name GET /api/posts
+# Cette requête permet de récupérer tous les articles
+GET http://127.0.0.1:8000/api/posts
 
+###
+# @name GET /api/posts/{id}
+# Cette requête permet de récupérer un seul article
+GET http://127.0.0.1:8000/api/posts/12
+
+###
+# @name DELETE /api/posts/{id}
+# Cette requête permet de supprimer un article
+DELETE http://127.0.0.1:8000/api/posts/8
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee

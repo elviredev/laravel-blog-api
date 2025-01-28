@@ -10,19 +10,26 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+// Authentification
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// seul le user authentifié pourra se logout
+// GET all posts
+Route::get('/posts', [PostController::class, 'getAllPosts']);
+// GET single post
+Route::get('/posts/{post_id}', [PostController::class, 'getPost']);
+
+
+// Pour users authentifiés
 Route::middleware('auth:sanctum')->group(function () {
   Route::post('/logout', [AuthController::class, 'logout']);
 
   // Endpoints API blog
   Route::post('/add/post', [PostController::class, 'addNewPost']);
-  // edit approach 1
   Route::post('/edit/post/{slug}-{post_id}', [PostController::class, 'editPost'])
     ->where([
       'slug' => '[a-z0-9\-]+', // Permet les slugs au format kebab-case
       'post_id' => '[0-9]+'
     ]);
+  Route::delete('/posts/{post_id}', [PostController::class, 'deletePost']);
 });
