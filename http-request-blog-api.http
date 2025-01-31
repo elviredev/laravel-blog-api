@@ -11,15 +11,15 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 //}
 
 {
-  "title": "TailwindCSS 4",
-  "description": "Une configuration via le fichier CSS et non plus en JS"
+  "title": "Laravel 11",
+  "description": "Simplification."
 }
 
 
 ###
 # @name POST /api/edit/post/{slug}-{id}
 # Cette requête permet d'ajouter un article
-POST http://127.0.0.1:8000/api/edit/post/mon-article-2-2
+POST http://127.0.0.1:8000/api/edit/post/laravel-11-14
 Content-Type: application/json
 Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 
@@ -30,8 +30,8 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 //}
 
 {
-  "title": "Mon article deux",
-  "description": "Mise à jour du contenu de mon article 2"
+  "title": "Laravel 11",
+  "description": "Structure d'application simplifiée, une limitation du débit par seconde, un routage de santé, une rotation gracieuse des clés de chiffrement, des améliorations des tests de file d'attente, le transport de renvoi du courrier, l'intégration du validateur d'invite, de nouvelles commandes Artisan, et plus encore. "
 }
 
 ###
@@ -41,11 +41,49 @@ GET http://127.0.0.1:8000/api/posts
 
 ###
 # @name GET /api/posts/{id}
-# Cette requête permet de récupérer un seul article
-GET http://127.0.0.1:8000/api/posts/12
+# Cette requête permet de récupérer un seul article et ses commentaires associés
+GET http://127.0.0.1:8000/api/posts/14
 
 ###
 # @name DELETE /api/posts/{id}
 # Cette requête permet de supprimer un article
-DELETE http://127.0.0.1:8000/api/posts/8
+DELETE http://127.0.0.1:8000/api/posts/3
 Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+############################
+##### Comments & Likes #####
+############################
+
+###
+# @name POST /api/add/comment
+# Cette requête permet d'ajouter un commentaire
+POST http://127.0.0.1:8000/api/add/comment
+Content-Type: application/json
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+{
+  "post_id": 14,
+  "comment": "Excellent article..."
+}
+
+###
+# @name POST /api/add/like
+# Cette requête permet d'ajouter un like à un article
+POST http://127.0.0.1:8000/api/add/like
+Content-Type: application/json
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+{
+  "post_id": 12
+}
+
+###
+# @name DELETE /api/like
+# Cette requête permet de supprimer un like existant
+DELETE http://127.0.0.1:8000/api/like
+Content-Type: application/json
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+{
+  "post_id": 2
+}

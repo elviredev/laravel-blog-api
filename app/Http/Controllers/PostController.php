@@ -47,15 +47,13 @@ class PostController extends Controller
     }
 
     // Ajouter l'article
-    $post = new Post();
-    // Remplit les champs depuis $validatedData comme le model "Post" utilise $fillable
-    $post->fill([
-      'title' => $request->input('title'),
+    $post = Post::create([
+      'title' => $request->title,
       'slug' => $slug,
-      'description' => $request->input('description')
+      'description' => $request->description,
+      'user_id' => auth()->id(),
     ]);
-    $post->user_id = auth()->user()->id; // Associe l'utilisateur
-    $post->save();
+
 
     // Charger la relation 'user'
     $post->load('user');
@@ -135,8 +133,10 @@ class PostController extends Controller
   {
     try {
       // on utilise une collection de modèles
-      $posts = Post::all();
-      // Permet de transformer une collection d'articles en une collection de ressources. Chaque ressource est ensuite gérée par PostResource
+      $posts = Post::with('comments')
+        ->withCount('likes', 'comments')
+        ->get();
+      // Transformer la collection de posts en une collection de ressources. Chaque ressource est ensuite gérée par PostResource
       $resource = PostResource::collection($posts);
       return $resource->response()->setStatusCode(200);
     } catch (Exception $e) {
@@ -145,7 +145,7 @@ class PostController extends Controller
   }
 
   /**
-   * @desc Récupérer un seul article
+   * @desc Récupérer un seul article avec ses commentaires et ses likes
    * @route GET /api/posts/{post_id}
    * @param $post_id
    * @return JsonResponse
@@ -153,8 +153,10 @@ class PostController extends Controller
   public function getPost($post_id): JsonResponse
   {
     try {
-      // Récupération du post ou levée d'une exception si introuvable
-      $post = Post::findOrFail($post_id);
+      // Récupération du post et de ses commentaires ou levée d'une exception si introuvable
+      $post = Post::with('comments')
+        ->withCount('likes', 'comments')
+        ->findOrFail($post_id);
 
       return (new PostResource($post))
         ->response()

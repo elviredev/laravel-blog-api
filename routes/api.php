@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +26,7 @@ Route::get('/posts/{post_id}', [PostController::class, 'getPost']);
 Route::middleware('auth:sanctum')->group(function () {
   Route::post('/logout', [AuthController::class, 'logout']);
 
-  // Endpoints API blog
+  // Endpoints API Post
   Route::post('/add/post', [PostController::class, 'addNewPost']);
   Route::post('/edit/post/{slug}-{post_id}', [PostController::class, 'editPost'])
     ->where([
@@ -32,4 +34,9 @@ Route::middleware('auth:sanctum')->group(function () {
       'post_id' => '[0-9]+'
     ]);
   Route::delete('/posts/{post_id}', [PostController::class, 'deletePost']);
+
+  // Endpoints API Comment
+  Route::post('/add/comment', [CommentController::class, 'addComment']);
+  Route::post('/add/like', [LikeController::class, 'addLike']);
+  Route::delete('/like', [LikeController::class, 'removeLike']);
 });
