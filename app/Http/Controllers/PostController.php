@@ -27,6 +27,7 @@ class PostController extends Controller
       'title' => 'required|string',
       'slug' => 'nullable|string|unique:posts,slug',
       'description' => 'required|string',
+      'category_id' => 'nullable|integer|exists:categories,id',
     ]);
 
     if ($validatedData->fails()) {
@@ -52,8 +53,8 @@ class PostController extends Controller
       'slug' => $slug,
       'description' => $request->description,
       'user_id' => auth()->id(),
+      'category_id' => $request->category_id
     ]);
-
 
     // Charger la relation 'user'
     $post->load('user');
@@ -89,6 +90,7 @@ class PostController extends Controller
       'title' => 'required|string',
       'description' => 'required|string',
       'slug' => 'nullable|string|unique:posts,slug,' . $post_id, // vérifie l'unicité du slug sauf pour cet article
+      'category_id' => 'nullable|exists:categories,id',
     ]);
 
     if ($validatedData->fails()) {
@@ -113,6 +115,7 @@ class PostController extends Controller
     // Mettre à jour les autres données
     $post->title = $request->title;
     $post->description = $request->description;
+    $post->category_id = $request->category_id;
 
     // Sauvegarder les modifications
     $post->save();
@@ -224,6 +227,34 @@ class PostController extends Controller
         'details' => $e->getMessage()
       ], 500);
     }
+  }
+
+  /**
+   * @desc Filtrer les articles par catégorie
+   * @route GET /api/categories/{category_id}/posts
+   * @param $category_id
+   * @return JsonResponse
+   */
+  public function getPostsByCategory($category_id): JsonResponse
+  {
+    $posts = Post::where('category_id', $category_id)->paginate(5);
+
+    if ($posts->isEmpty()) {
+      return response()->json(['message' => 'No posts found for this category'], 404);
+    }
+
+    $resource = PostResource::collection($posts);
+    return response()->json([
+      'data' => $resource,
+      'pagination' => [
+        'total' => $posts->total(),
+        'per_page' => $posts->perPage(),
+        'current_page' => $posts->currentPage(),
+        'last_page' => $posts->lastPage(),
+        'prev_page_url' => $posts->previousPageUrl(),
+        'next_page_url' => $posts->nextPageUrl(),
+      ]
+    ])->setStatusCode(200);
   }
 
 }

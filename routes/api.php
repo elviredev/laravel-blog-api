@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
@@ -21,6 +22,10 @@ Route::get('/posts', [PostController::class, 'getAllPosts']);
 // GET single post
 Route::get('/posts/{post_id}', [PostController::class, 'getPost']);
 
+// GET all categories
+Route::get('/categories', [CategoryController::class, 'getAllCategories']);
+// Filtrer les posts par catégorie
+Route::get('/categories/{category_id}/posts', [PostController::class, 'getPostsByCategory']);
 
 // Pour users authentifiés
 Route::middleware('auth:sanctum')->group(function () {
@@ -39,4 +44,9 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/add/comment', [CommentController::class, 'addComment']);
   Route::post('/add/like', [LikeController::class, 'addLike']);
   Route::delete('/like', [LikeController::class, 'removeLike']);
+
+  // Endpoints API Category
+  Route::post('/add/category', [CategoryController::class, 'addCategory']);
+  Route::put('/edit/category/{id}', [CategoryController::class, 'editCategory']);
+  Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory']);
 });

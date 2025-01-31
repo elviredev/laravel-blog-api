@@ -17,10 +17,11 @@ use Illuminate\Support\Carbon;
  * @property int $user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @mixin IdeHelperPost
  */
 class Post extends Model
 {
-  protected $fillable = ['title', 'slug', 'description', 'user_id'];
+  protected $fillable = ['title', 'slug', 'description', 'user_id', 'category_id'];
 
   // Relation entre Post et User
   public function user(): BelongsTo
@@ -38,5 +39,11 @@ class Post extends Model
   public function likes(): HasMany
   {
     return $this->hasMany(Like::class);
+  }
+
+  // Relation entre Post et Category
+  public function category(): BelongsTo
+  {
+    return $this->belongsTo(Category::class);
   }
 }

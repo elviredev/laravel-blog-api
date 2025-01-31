@@ -1,3 +1,7 @@
+#################
+##### Posts #####
+#################
+
 ### POST /api/add/post
 # Cette requête permet d'ajouter un article
 POST http://127.0.0.1:8000/api/add/post
@@ -11,8 +15,9 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 //}
 
 {
-  "title": "Laravel 11",
-  "description": "Simplification."
+  "title": "Nouveautés JS",
+  "description": "Le Javascript moderne est vraiment fabuleux.",
+  "category_id": 2
 }
 
 
@@ -31,28 +36,33 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 
 {
   "title": "Laravel 11",
-  "description": "Structure d'application simplifiée, une limitation du débit par seconde, un routage de santé, une rotation gracieuse des clés de chiffrement, des améliorations des tests de file d'attente, le transport de renvoi du courrier, l'intégration du validateur d'invite, de nouvelles commandes Artisan, et plus encore. "
+  "description": "Structure d'application simplifiée, une limitation du débit par seconde, un routage de santé, une rotation gracieuse des clés de chiffrement, des améliorations des tests de file d'attente, le transport de renvoi du courrier, l'intégration du validateur d'invite, de nouvelles commandes Artisan, et plus encore. ",
+  "category_id": 1
 }
 
 ###
 # @name GET /api/posts
 # Cette requête permet de récupérer tous les articles
 GET http://127.0.0.1:8000/api/posts
+Accept: application/json
 
 ###
 # @name GET /api/posts?page=2
 # Cette requête permet de récupérer les articles en tenant compte de la pagination
 GET http://127.0.0.1:8000/api/posts?page=1
+Accept: application/json
 
 ###
 # @name GET /api/posts?q=Laravel
 # Cette requête permet de récupérer tous les articles
 GET http://127.0.0.1:8000/api/posts?q=Laravel
+Accept: application/json
 
 ###
 # @name GET /api/posts/{id}
 # Cette requête permet de récupérer un seul article et ses commentaires associés
 GET http://127.0.0.1:8000/api/posts/14
+Accept: application/json
 
 ###
 # @name DELETE /api/posts/{id}
@@ -97,3 +107,47 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 {
   "post_id": 2
 }
+
+####################
+##### Category #####
+####################
+
+###
+# @name POST /api/add/category
+# Cette requête permet de créer une catégorie
+POST http://127.0.0.1:8000/api/add/category
+Content-Type: application/json
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+{
+  "name": "Bootstrap 5"
+}
+
+###
+# @name GET /api/categories
+# Cette requête permet d'obtenir toutes les catégories
+GET http://127.0.0.1:8000/api/categories
+Accept: application/json
+
+###
+# @name PUT /api/edit/category/{id}
+# Cette requête permet de mettre à jour une catégorie
+PUT http://127.0.0.1:8000/api/edit/category/3
+Content-Type: application/json
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+{
+  "name": "PHP"
+}
+
+###
+# @name DELETE /api/categories/{id}
+# Cette requête permet de supprimer une catégorie
+DELETE http://127.0.0.1:8000/api/categories/7
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+###
+# @name GET /api/categories/{category_id}/posts
+# Cette requête permet de filtrer les articles par catégorie
+GET http://127.0.0.1:8000/api/categories/1/posts
+Accept: application/json

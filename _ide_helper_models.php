@@ -15,7 +15,29 @@ namespace App\Models{
 /**
  * 
  *
- * @mixin IdeHelperComment
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
+ * @property-read int|null $posts_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperCategory {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
  * @property int $id
  * @property int $user_id
  * @property int $post_id
@@ -31,15 +53,16 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment wherePostId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereUserId($value)
+ * @mixin \Eloquent
  */
-	class Comment extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperComment {}
 }
 
 namespace App\Models{
 /**
  * 
  *
- * @mixin IdeHelperLike
  * @property int $id
  * @property int $user_id
  * @property int $post_id
@@ -53,8 +76,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Like wherePostId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Like whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Like whereUserId($value)
+ * @mixin \Eloquent
  */
-	class Like extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperLike {}
 }
 
 namespace App\Models{
@@ -68,9 +93,17 @@ namespace App\Models{
  * @property int $user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property int|null $category_id
+ * @property-read \App\Models\Category|null $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Like> $likes
+ * @property-read int|null $likes_count
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereId($value)
@@ -78,15 +111,16 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Post whereUserId($value)
+ * @mixin \Eloquent
  */
-	class Post extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperPost {}
 }
 
 namespace App\Models{
 /**
  * 
  *
- * @mixin IdeHelperUser
  * @property int $id
  * @property string $name
  * @property string $email
@@ -112,7 +146,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
-	class User extends \Eloquent {}
+	#[\AllowDynamicProperties]
+	class IdeHelperUser {}
 }
 

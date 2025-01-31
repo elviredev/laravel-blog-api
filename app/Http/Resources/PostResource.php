@@ -29,6 +29,10 @@ class PostResource extends JsonResource
           'id' => $this->user_id,
           'name' => $this->user->name ?? 'Anonymous'
         ],
+        'category' => [
+          'id' => $this->category->id ?? null,
+          'name' => $this->category->name ?? null,
+        ],
         // total commentaires sur un article
         'comments_count' => $this->comments_count,
         // Inclure les commentaires associés à un post. Boucler dans le tableau 'comments'
