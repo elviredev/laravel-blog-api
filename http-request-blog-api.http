@@ -40,6 +40,16 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 GET http://127.0.0.1:8000/api/posts
 
 ###
+# @name GET /api/posts?page=2
+# Cette requête permet de récupérer les articles en tenant compte de la pagination
+GET http://127.0.0.1:8000/api/posts?page=1
+
+###
+# @name GET /api/posts?q=Laravel
+# Cette requête permet de récupérer tous les articles
+GET http://127.0.0.1:8000/api/posts?q=Laravel
+
+###
 # @name GET /api/posts/{id}
 # Cette requête permet de récupérer un seul article et ses commentaires associés
 GET http://127.0.0.1:8000/api/posts/14

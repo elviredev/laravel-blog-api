@@ -125,20 +125,41 @@ class PostController extends Controller
   }
 
   /**
-   * @desc Récupérer tous les articles
+   * @desc Récupérer tous les articles avec les relations et applique la
+   * recherche si un mot-clé est fourni. Inclure pagination.
    * @route GET /api/posts
+   * @param Request $request
    * @return JsonResponse
    */
-  public function getAllPosts(): JsonResponse
+  public function getAllPosts(Request $request): JsonResponse
   {
     try {
-      // on utilise une collection de modèles
+      // Récupère le mot-clé de recherche
+      $query = $request->input('q');
+
       $posts = Post::with('comments')
         ->withCount('likes', 'comments')
-        ->get();
-      // Transformer la collection de posts en une collection de ressources. Chaque ressource est ensuite gérée par PostResource
+        // Ajouter un filtre pour rechercher le mot-clé dans `title` et `description`
+        ->when($query, function ($queryBuilder) use ($query) {
+            return $queryBuilder->where('title', 'LIKE', "%$query%")
+                                ->orWhere('description', 'LIKE', "%$query%");
+        })
+        ->paginate(3);
+
       $resource = PostResource::collection($posts);
-      return $resource->response()->setStatusCode(200);
+      return response()->json([
+        // garder les posts formatés dans la response
+        'data' => $resource,
+        // simplifier la response pour la pagination
+        'pagination' => [
+          'total' => $posts->total(),
+          'per_page' => $posts->perPage(),
+          'current_page' => $posts->currentPage(),
+          'last_page' => $posts->lastPage(),
+          'prev_page_url' => $posts->previousPageUrl(),
+          'next_page_url' => $posts->nextPageUrl(),
+        ]
+      ])->setStatusCode(200);
     } catch (Exception $e) {
       return response()->json(['error' => $e->getMessage()], 404);
     }
