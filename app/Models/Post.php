@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
  * @property string $title
  * @property string $slug
  * @property string $description
+ * @property string $image
  * @property int $user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -21,7 +22,7 @@ use Illuminate\Support\Carbon;
  */
 class Post extends Model
 {
-  protected $fillable = ['title', 'slug', 'description', 'user_id', 'category_id'];
+  protected $fillable = ['title', 'slug', 'description', 'user_id', 'category_id', 'image'];
 
   // Relation entre Post et User
   public function user(): BelongsTo

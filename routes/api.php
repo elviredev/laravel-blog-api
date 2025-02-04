@@ -49,4 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/add/category', [CategoryController::class, 'addCategory']);
   Route::put('/edit/category/{id}', [CategoryController::class, 'editCategory']);
   Route::delete('/categories/{id}', [CategoryController::class, 'deleteCategory']);
+
+  // Delete Image
+  Route::delete('/posts/{post_id}/image', [PostController::class, 'deleteImage']);
 });

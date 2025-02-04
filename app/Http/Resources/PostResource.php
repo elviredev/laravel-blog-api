@@ -33,6 +33,8 @@ class PostResource extends JsonResource
           'id' => $this->category->id ?? null,
           'name' => $this->category->name ?? null,
         ],
+        // renvoyer l'URL complète de l'image
+        'image' => $this->image ? asset('storage/' . $this->image ) : null,
         // total commentaires sur un article
         'comments_count' => $this->comments_count,
         // Inclure les commentaires associés à un post. Boucler dans le tableau 'comments'

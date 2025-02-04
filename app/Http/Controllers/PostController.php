@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use function PHPUnit\Framework\isNumeric;
@@ -28,6 +29,7 @@ class PostController extends Controller
       'slug' => 'nullable|string|unique:posts,slug',
       'description' => 'required|string',
       'category_id' => 'nullable|integer|exists:categories,id',
+      'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
     ]);
 
     if ($validatedData->fails()) {
@@ -47,13 +49,21 @@ class PostController extends Controller
       $slug = $originalSlug . '-' . $counter++;
     }
 
+    // Gestion de l'image
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+      // Stockage dans `storage/app/public/images/posts`
+      $imagePath = $request->file('image')->store('images/posts', 'public');
+    }
+
     // Ajouter l'article
     $post = Post::create([
       'title' => $request->title,
       'slug' => $slug,
       'description' => $request->description,
       'user_id' => auth()->id(),
-      'category_id' => $request->category_id
+      'category_id' => $request->category_id,
+      'image' => $imagePath
     ]);
 
     // Charger la relation 'user'
@@ -91,6 +101,7 @@ class PostController extends Controller
       'description' => 'required|string',
       'slug' => 'nullable|string|unique:posts,slug,' . $post_id, // vérifie l'unicité du slug sauf pour cet article
       'category_id' => 'nullable|exists:categories,id',
+      'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
     ]);
 
     if ($validatedData->fails()) {
@@ -103,6 +114,15 @@ class PostController extends Controller
     $post = Post::where('id', $post_id)->where('slug', $slug)->first();
     if (!$post) {
       return response()->json(['message' => 'Post not found.'], 404);
+    }
+
+    // Gestion de l'image
+    if ($request->hasFile('image')) {
+      // Supprimer l'ancienne image si elle existe
+      if ($post->image) {
+        Storage::disk('public')->delete($post->image);
+      }
+      $post->image = $request->file('image')->store('images/posts', 'public');
     }
 
     // Utilise le slug de la requête ou conserve celui existant
@@ -255,6 +275,28 @@ class PostController extends Controller
         'next_page_url' => $posts->nextPageUrl(),
       ]
     ])->setStatusCode(200);
+  }
+
+  /**
+   * @desc Supprimer une image associée à un article
+   * @route DELETE /api/posts/{post_id}/image
+   * @param $post_id
+   * @return JsonResponse
+   */
+  public function deleteImage($post_id): JsonResponse
+  {
+    $post = Post::findOrFail($post_id);
+    if (!$post->image) {
+      return response()->json(['message' => 'No image to delete.'],
+        404);
+    }
+
+    // Supprimer l'image
+    Storage::disk('public')->delete($post->image);
+    $post->image = null;
+    $post->save();
+
+    return response()->json(['message' => 'Image deleted successfully.'], 200);
   }
 
 }
