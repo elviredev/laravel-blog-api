@@ -11,8 +11,9 @@ Content-Type: application/json
 
 {
   "title": "Une nouvelle api",
-  "slug": "nouvelle-api",
-  "description": "Ceci est mon contenu pour cet article"
+  "description": "Ceci est mon contenu pour cet article",
+  "category_id": 3,
+  "tags": ["PHP", "Laravel", "API"]
 }
 
 ###
@@ -40,7 +41,6 @@ Content-Type: image/png
 
 < C:\sandboxFullstack\Images-Icones-SVG\images\animcss.jpg
 --WebAppBoundary--
-
 
 ###
 # @name POST /api/edit/post/{slug}-{id}
@@ -101,7 +101,7 @@ Accept: application/json
 
 ###
 # @name GET /api/posts?q=Laravel
-# Cette requête permet de récupérer tous les articles
+# Cette requête permet de récupérer tous les articles contenant un mot-clé
 GET http://127.0.0.1:8000/api/posts?q=Laravel
 Accept: application/json
 
@@ -114,7 +114,7 @@ Accept: application/json
 ###
 # @name DELETE /api/posts/{id}
 # Cette requête permet de supprimer un article
-DELETE http://127.0.0.1:8000/api/posts/9
+DELETE http://127.0.0.1:8000/api/posts/24
 Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 
 ############################
@@ -199,4 +199,29 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 GET http://127.0.0.1:8000/api/categories/5/posts
 Accept: application/json
 
+################
+##### tags #####
+################
+
 ###
+# @name PUT /api/posts/{post_id}/tags
+# Cette requête permet à un utilisateur de modifier les tags d'un article
+PUT http://127.0.0.1:8000/api/posts/2/tags
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+Content-Type: application/json
+
+{
+  "tags": ["IA", "Laravel", "PHP"]
+}
+
+###
+# @name DELETE /api/tags/{tag}
+# Cette requête permet à un utilisateur de supprimer complétement un tag non lié à un article
+DELETE http://127.0.0.1:8000/api/tags/2
+Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
+
+###
+# @name GET /api/tags/{tagName}/posts
+# Cette requête permet de filtrer les articles par tag
+GET http://127.0.0.1:8000/api/tags/php/posts
+Accept: application/json

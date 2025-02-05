@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,9 @@ Route::get('/posts/{post_id}', [PostController::class, 'getPost']);
 Route::get('/categories', [CategoryController::class, 'getAllCategories']);
 // Filtrer les posts par catégorie
 Route::get('/categories/{category_id}/posts', [PostController::class, 'getPostsByCategory']);
+
+// GET posts by tag
+Route::get('/tags/{tagName}/posts', [TagController::class, 'getPostsByTag']);
 
 // Pour users authentifiés
 Route::middleware('auth:sanctum')->group(function () {
@@ -52,4 +56,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
   // Delete Image
   Route::delete('/posts/{post_id}/image', [PostController::class, 'deleteImage']);
+
+  // Update Tags
+  Route::put('/posts/{post_id}/tags', [PostController::class, 'updateTags']);
+
+  // Delete Tag
+  Route::delete('/tags/{tag_id}', [TagController::class, 'deleteTag']);
 });

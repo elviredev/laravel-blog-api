@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\Tag;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -30,6 +31,8 @@ class PostController extends Controller
       'description' => 'required|string',
       'category_id' => 'nullable|integer|exists:categories,id',
       'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+      'tags' => 'nullable|array',
+      'tags.*' => 'string' // chaque tag doit être une string
     ]);
 
     if ($validatedData->fails()) {
@@ -65,6 +68,21 @@ class PostController extends Controller
       'category_id' => $request->category_id,
       'image' => $imagePath
     ]);
+
+    // Associer les tags
+    if ($request->has('tags')) {
+      // transformation des tags (tableau simple) en collection Laravel pour avoir accès à des méthodes puissantes pour manipuler les données facilement
+      $tags = collect($request->tags)->map(function ($tagName) {
+        // Vérifie si un tag portant ce nom existe dans la base de données. Si oui, récupère l'id existant sinon créé le tag dans la bdd et retourne son id
+        return Tag::firstOrCreate(['name' => $tagName])->id;
+      });
+      // associe les tags créés/récupérés au post. Utilise la table pivot post_tag pour enregistrer les associations.
+      // sync($tags) ajoute uniquement ces tags et supprime ceux qui ne sont plus utilisés.
+      $post->tags()->sync($tags);
+    }
+
+    // Charger la relation 'tags'
+    $post->load('tags');
 
     // Charger la relation 'user'
     $post->load('user');
@@ -297,6 +315,43 @@ class PostController extends Controller
     $post->save();
 
     return response()->json(['message' => 'Image deleted successfully.'], 200);
+  }
+
+  /**
+   * @desc Modifier les tags d'un article
+   * @route PUT /api/posts/{post_id}/tags
+   * @param Request $request
+   * @param $post_id
+   * @return JsonResponse
+   */
+  public function updateTags(Request $request, $post_id): JsonResponse
+  {
+    $post = Post::find($post_id);
+    // si le post n'existe pas ou est invalide, retourne un 404
+    if (!$post) {
+      return response()->json(['message' => 'Post not found.'], 404);
+    }
+
+    $validatedData = Validator::make($request->all(), [
+      'tags' => 'array',
+      'tags.*' => 'string|max:255'
+    ]);
+    if ($validatedData->fails()) {
+      return response()->json(['errors' => $validatedData->errors()], 422);
+    }
+
+    // Récupérer les tags ou les créer s'ils n'existent pas
+    $tags = collect($request->tags)->map(function ($tagName) {
+      return Tag::firstOrCreate(['name' => $tagName])->id;
+    });
+
+    // Synchroniser les tags avec le post et forcer la mise à jour des timestamps
+    $post->tags()->syncWithPivotValues($tags, ['updated_at' => now()]);
+
+    return response()->json([
+      'message' => 'Tags updated successfully.',
+      'tags' => $post->tags->pluck('name')
+    ], 200);
   }
 
 }

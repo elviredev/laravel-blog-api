@@ -90,10 +90,10 @@ namespace App\Models{
  * @property string $title
  * @property string $slug
  * @property string $description
+ * @property string $image
  * @property int $user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property string|null $image
  * @property int|null $category_id
  * @property-read \App\Models\Category|null $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
@@ -117,6 +117,19 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperPost {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag query()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperTag {}
 }
 
 namespace App\Models{

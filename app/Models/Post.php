@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
@@ -46,5 +47,11 @@ class Post extends Model
   public function category(): BelongsTo
   {
     return $this->belongsTo(Category::class);
+  }
+
+  // Relation entre Post et Tag : un post peut avoir plusieurs tags
+  public function tags(): BelongsToMany
+  {
+    return $this->belongsToMany(Tag::class)->withTimestamps();
   }
 }

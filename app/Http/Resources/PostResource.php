@@ -47,7 +47,8 @@ class PostResource extends JsonResource
           ];
         }),
         // total likes sur un article
-        'likes_count' => $this->likes_count
+        'likes_count' => $this->likes_count,
+        'tags' => $this->tags->pluck('name'),
       ];
     }
 }
