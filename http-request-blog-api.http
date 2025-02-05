@@ -10,10 +10,10 @@ Authorization: Bearer 7|ORp2tUsMeXlQU35es2yPqkw2J0rx0m6xd4dD7tu90f90c8ee
 Content-Type: application/json
 
 {
-  "title": "Une nouvelle api",
-  "description": "Ceci est mon contenu pour cet article",
-  "category_id": 3,
-  "tags": ["PHP", "Laravel", "API"]
+  "title": "Configuration Laravel",
+  "description": "lorem ipsum",
+  "category_id": 6,
+  "tags": ["Laravel"]
 }
 
 ###
@@ -26,20 +26,25 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="title"
 
-Un autre article
+Javascript et Html
 --WebAppBoundary
 Content-Disposition: form-data; name="description"
 
-Un article avec une image sur le CSS.
+Un article sur le javascript et l'HTML.
 --WebAppBoundary
 Content-Disposition: form-data; name="category_id"
 
-5
+2
 --WebAppBoundary
-Content-Disposition: form-data; name="image"; filename="illustration.png"
+Content-Disposition: form-data; name="image"; filename="flex.jpg"
 Content-Type: image/png
 
-< C:\sandboxFullstack\Images-Icones-SVG\images\animcss.jpg
+< C:\sandboxFullstack\Images-Icones-SVG\images\flex.jpg
+--WebAppBoundary
+Content-Disposition: form-data; name="tags"
+Content-Type: application/json
+
+["javascript", "HTML"]
 --WebAppBoundary--
 
 ###

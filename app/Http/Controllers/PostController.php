@@ -24,6 +24,11 @@ class PostController extends Controller
    */
   public function addNewPost(Request $request): JsonResponse
   {
+    // Corriger le problème des tags JSON en multipart/form-data
+    if ($request->has('tags') && is_string($request->tags)) {
+      $request->merge(['tags' => json_decode($request->tags, true)]);
+    }
+
     // valider les données reçues avant de les enregistrer en bdd
     $validatedData = Validator::make($request->all(), [
       'title' => 'required|string',
@@ -76,6 +81,7 @@ class PostController extends Controller
         // Vérifie si un tag portant ce nom existe dans la base de données. Si oui, récupère l'id existant sinon créé le tag dans la bdd et retourne son id
         return Tag::firstOrCreate(['name' => $tagName])->id;
       });
+
       // associe les tags créés/récupérés au post. Utilise la table pivot post_tag pour enregistrer les associations.
       // sync($tags) ajoute uniquement ces tags et supprime ceux qui ne sont plus utilisés.
       $post->tags()->sync($tags);
